@@ -1,0 +1,171 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Dec 10 13:07:24 2021
+
+@author: meshal
+"""
+from nltk import tokenize
+from operator import itemgetter
+import math
+
+doc = '''
+Profile 
+Business-minded data scientist with a demonstrated ability to deliver valuable insights via data analytics and advanced data-driven methods,
+With deep understanding of neural networks and the ability to explain technical topics,data, machine learning, and statistics.
+Passionate about explaining data science to non-technical business audiences,
+I have experience using stats and machine-learning to find useful insights in data.
+
+Professional Experience
+Analyzed and Predict Stock Price for next day:
+Developed and trained Artificial Recurrent Neural network (RNN) on stock dataframe and tested it with loss matrix and accuracy to predict next day price.
+
+Built Twitter and News Sentiment App: 
+Create Algorithm with TensorFlow predict the polarity of textual data or sentiments like Positive, Neural, and negative.
+
+Predict What Products Customers Likely Want
+Boosted Machine learning to Predict what products customers likely want and then optimize a targeted campaign using advanced decision optimization in a Jupyter notebook. 
+
+Analyzed Public Twitter Profile: 
+Established Deeper personality insight on several dimensions, including traits , values , need and consumer preferences . Enhanced with chart plot.
+
+Technical Skills 
+Development Machine Learning: 
+Classification, Regression, Clustering, Future Engineering, TensorFlow, Transfer Learning, Restful API, Terminal Bash
+
+Programming Language:
+Python (Scikit-Learn, NumPy, Pandas, TensorFlow, Matplotlib, SciPy), SQL, Microsoft, HTML, JavaScript, Dart, Excel, Flutter
+
+Statics Methods:
+Time Series, Regression Models, Hypothesis Testing.
+
+Visualization:
+Tableau, Oracle DVD.
+
+Development Platform:
+Web Browser, IOS & Android Apps .
+
+Tools:
+Anaconda, Jupyter Notebook, IDE Editor, Android Studio.
+
+Selected Coursework:
+Stochastic Gradient Decent, Liner Algebra, Theory, Probity and Statics, A/B Testing
+
+Education 
+•	Studying Master Degree in Data Scientist in University of Colorado Bolder
+•	Faculty of Business Studies Accountant Diploma 2001-2004		CERTIFICATION 
+	
+Tensorflow Certified Developer: Googel.com
+
+IBM Applied AI Specialization :
+
+NLP Natural Language Processing with python :  Udemy
+Building Ai Powered Chatbot : IBM
+Browser Based Model with TensorFlow: deeplearning.io
+Machine Learning with Python: Coursera.
+Augmented Data Visualization
+ 
+LANGUAGES
+Arabic, English
+
+ADDITIONAL INTEREST
+Karate
+Swimming
+Travel
+'''
+
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize 
+stop_words = set(stopwords.words('english'))
+
+total_words = doc.split()
+total_word_length = len(total_words)
+print(total_word_length)
+
+
+total_sentences = tokenize.sent_tokenize(doc)
+total_sent_len = len(total_sentences)
+print(total_sent_len)
+
+tf_score = {}
+for each_word in total_words:
+    each_word = each_word.replace('.','')
+    if each_word not in stop_words:
+        if each_word in tf_score:
+            tf_score[each_word] += 1
+        else:
+            tf_score[each_word] = 1
+
+# Dividing by total_word_length for each dictionary element
+tf_score.update((x, y/int(total_word_length)) for x, y in tf_score.items())
+print(tf_score)
+
+
+#Function to check if the word is present in a sentence list
+
+def check_sent(word, sentences): 
+    final = [all([w in x for w in word]) for x in sentences] 
+    sent_len = [sentences[i] for i in range(0, len(final)) if final[i]]
+    return int(len(sent_len))
+
+
+#Calculate IDF for each word
+
+idf_score = {}
+for each_word in total_words:
+    each_word = each_word.replace('.','')
+    if each_word not in stop_words:
+        if each_word in idf_score:
+            idf_score[each_word] = check_sent(each_word, total_sentences)
+        else:
+            idf_score[each_word] = 1
+
+# Performing a log and divide
+idf_score.update((x, math.log(int(total_sent_len)/y)) for x, y in idf_score.items())
+
+print(idf_score)
+
+
+tf_idf_score = {key: tf_score[key] * idf_score.get(key, 0) for key in tf_score.keys()}
+print(tf_idf_score)
+
+#Create a function to get N important words in the document
+def get_top_n(dict_elem, n):
+    result = dict(sorted(dict_elem.items(), key = itemgetter(1), reverse = True)[:n]) 
+    return result
+
+#Get the top 5 words of significance
+print(get_top_n(tf_idf_score, 5))
+
+
+#this is one of the ways you can build your own keyword extractor in Python! The steps above can be summarized in a simple way as Document -> Remove stop words -> Find Term Frequency (TF) -> Find Inverse Document Frequency (IDF) -> Find TF*IDF -> Get top N Keywords. 
+
+
+data = pd.DataFrame.from_dict(tf_idf_score,orient='index')
+
+df = pd.DataFrame.from_dict(total_words,orient='index')
+
+print(total_word)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

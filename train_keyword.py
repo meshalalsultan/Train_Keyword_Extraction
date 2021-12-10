@@ -4,6 +4,74 @@ import re
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer 
 
+cv_text = '''Profile 
+Business-minded data scientist with a demonstrated ability to deliver valuable insights via data analytics and advanced data-driven methods,
+With deep understanding of neural networks and the ability to explain technical topics,data, machine learning, and statistics.
+Passionate about explaining data science to non-technical business audiences,
+I have experience using stats and machine-learning to find useful insights in data.
+
+Professional Experience
+Analyzed and Predict Stock Price for next day:
+Developed and trained Artificial Recurrent Neural network (RNN) on stock dataframe and tested it with loss matrix and accuracy to predict next day price.
+
+Built Twitter and News Sentiment App: 
+Create Algorithm with TensorFlow predict the polarity of textual data or sentiments like Positive, Neural, and negative.
+
+Predict What Products Customers Likely Want
+Boosted Machine learning to Predict what products customers likely want and then optimize a targeted campaign using advanced decision optimization in a Jupyter notebook. 
+
+Analyzed Public Twitter Profile: 
+Established Deeper personality insight on several dimensions, including traits , values , need and consumer preferences . Enhanced with chart plot.
+
+Technical Skills 
+Development Machine Learning: 
+Classification, Regression, Clustering, Future Engineering, TensorFlow, Transfer Learning, Restful API, Terminal Bash
+
+Programming Language:
+Python (Scikit-Learn, NumPy, Pandas, TensorFlow, Matplotlib, SciPy), SQL, Microsoft, HTML, JavaScript, Dart, Excel, Flutter
+
+Statics Methods:
+Time Series, Regression Models, Hypothesis Testing.
+
+Visualization:
+Tableau, Oracle DVD.
+
+Development Platform:
+Web Browser, IOS & Android Apps .
+
+Tools:
+Anaconda, Jupyter Notebook, IDE Editor, Android Studio.
+
+Selected Coursework:
+Stochastic Gradient Decent, Liner Algebra, Theory, Probity and Statics, A/B Testing
+
+Education 
+•	Studying Master Degree in Data Scientist in University of Colorado Bolder
+•	Faculty of Business Studies Accountant Diploma 2001-2004		CERTIFICATION 
+	
+Tensorflow Certified Developer: Googel.com
+
+IBM Applied AI Specialization :
+
+NLP Natural Language Processing with python :  Udemy
+Building Ai Powered Chatbot : IBM
+Browser Based Model with TensorFlow: deeplearning.io
+Machine Learning with Python: Coursera.
+Augmented Data Visualization
+ 
+LANGUAGES
+Arabic, English
+
+ADDITIONAL INTEREST
+Karate
+Swimming
+Travel 
+'''
+
+
+
+
+
 
 df = pd.read_csv('papers.csv')
 
@@ -52,13 +120,13 @@ Using the tf-idf weighting scheme, the keywords are the words with the highest T
 '''
 
 from sklearn.feature_extraction.text import CountVectorizer
-#docs = docs.tolist()
+#docs = cv_text.tolist()
 #create a vocabulary of words, 
 cv=CountVectorizer(max_df=0.95,         # ignore words that appear in 95% of documents
                    max_features=10000,  # the size of the vocabulary
                    ngram_range=(1,3)    # vocabulary contains single words, bigrams, trigrams
                   )
-word_count_vector=cv.fit_transform(docs)
+word_count_vector=cv.fit_transform(cv_text)
 
 from sklearn.feature_extraction.text import TfidfTransformer
 
